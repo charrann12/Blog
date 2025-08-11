@@ -4,6 +4,7 @@ const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 
 const connectDB = require('./server/config/db');
+
 const app = express();
 const port = 3000 || process.env.port;
 
