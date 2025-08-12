@@ -70,20 +70,56 @@ post: id
 router.get('/post/:id', async(req, res)=>{
 
     try{
+        
+        let slug = req.params.id;
+
+// when you enter into a blog, your page title displays the blog name
+        const data = await Post.findById({ _id: slug});
+
         const locals={
-            title: "NodeJs Blog",
+            title: data.title,
             description: "Simple blog created using Nodejs, MongoDB and expressJS" 
         }
 
-        let slug = req.params.id;
-
-
-        const data = await Post.findById({ _id: slug});
         res.render('post', {locals, data});
     }catch(error){
         console.log(error);
     }
 })
+
+
+
+/*
+GET/
+post: searchTerm
+
+*/
+
+
+router.post('/search', async(req, res)=>{
+    try{ 
+        const locals={
+            title: "search",
+            description: "Simple blog created using Nodejs, MongoDB and expressJS" 
+        }
+        let searchTerm = req.body.searchTerm;
+        const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, "")
+        
+       const data = await Post.find({
+        $or: [
+            {title: {$regex: new RegExp(searchNoSpecialChar, 'i') }},
+            {body: {$regex: new RegExp(searchNoSpecialChar, 'i') }}
+        ]
+       });
+        res.render("search",{
+            data,
+            locals
+        });
+    }catch(error){
+        console.log(error);
+    }
+})
+
 
 /*
 function insertPostData(){
