@@ -58,7 +58,6 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
-module.exports = router;
 
 
 /*
@@ -120,6 +119,8 @@ router.post('/search', async(req, res)=>{
     }
 })
 
+
+module.exports = router;
 
 /*
 function insertPostData(){
